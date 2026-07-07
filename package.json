@@ -1,0 +1,18 @@
+{
+  "name": "my-kanban",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "dev": "npm run dev:backend",
+    "build": "npm run build --workspace backend && npm run build --workspace frontend",
+    "test": "npm run test --workspace backend && npm run test --workspace frontend",
+    "db:init": "npm run db:init --workspace backend",
+    "db:seed": "npm run db:seed --workspace backend"
+  }
+}

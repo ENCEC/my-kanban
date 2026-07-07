@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  title: Tasks API
+  version: 1.0.0
+  description: 团队 Kanban MVP 的任务接口契约
+servers:
+  - url: http://localhost:3001
+tags:
+  - name: tasks
+paths:
+  /api/projects/{projectId}/tasks:
+    get:
+      tags: [tasks]
+      summary: 获取某个项目的任务列表与看板成员数据
+      operationId: listProjectTasks
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: 成功返回项目任务列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectTasksResponse'
+        '404':
+          description: 项目不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags: [tasks]
+      summary: 在项目下创建任务
+      operationId: createTask
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '201':
+          description: 任务创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: 项目不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/tasks/{taskId}:
+    patch:
+      tags: [tasks]
+      summary: 更新任务基础信息或负责人
+      operationId: updateTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: 任务更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: 任务不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/tasks/{taskId}/status:
+    patch:
+      tags: [tasks]
+      summary: 更新任务状态
+      operationId: updateTaskStatus
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskStatusRequest'
+      responses:
+        '200':
+          description: 状态更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: 任务不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        type: string
+    TaskId:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    TeamMember:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        avatarText:
+          type: string
+          nullable: true
+    Task:
+      type: object
+      required: [id, projectId, title, status, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        assigneeId:
+          type: string
+          nullable: true
+        assignee:
+          anyOf:
+            - $ref: '#/components/schemas/TeamMember'
+            - type: 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TaskStatus:
+      type: string
+      enum: [todo, in_progress, done]
+    CreateTaskRequest:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        assigneeId:
+          type: string
+          nullable: true
+    UpdateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        assigneeId:
+          type: string
+          nullable: true
+    UpdateTaskStatusRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+    ProjectTasksResponse:
+      type: object
+      required: [project, members, items]
+      properties:
+        project:
+          type: object
+          required: [id, name]
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMember'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+    ErrorResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string

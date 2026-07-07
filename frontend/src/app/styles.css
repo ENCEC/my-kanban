@@ -1,0 +1,279 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+  color: #172033;
+  background:
+    radial-gradient(circle at top left, #fff4dc 0, transparent 32%),
+    linear-gradient(180deg, #eef5f1 0%, #f8fafb 45%, #fffaf0 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 32px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(31, 39, 56, 0.08);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 24px;
+}
+
+.project-list,
+.project-form,
+.board-column,
+.task-card {
+  padding: 20px;
+}
+
+.project-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.project-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f4f8fb;
+}
+
+.project-link:hover {
+  background: #e8f2ff;
+}
+
+.form-row {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.form-row label,
+.form-row > label {
+  font-weight: 600;
+  color: #24324a;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #c9d4e3;
+  background: white;
+}
+
+.primary-button {
+  border: 0;
+  background: #0f6c5a;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.secondary-button {
+  border: 1px solid #c9d4e3;
+  background: white;
+  color: #172033;
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+
+.inline-note {
+  font-size: 14px;
+  color: #58667f;
+}
+
+.error-text {
+  color: #bb2b45;
+  font-size: 14px;
+}
+
+.success-text {
+  color: #0f6c5a;
+  font-size: 14px;
+}
+
+.board-layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  align-items: start;
+}
+
+.board-column {
+  min-height: 420px;
+  padding: 18px;
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(241, 247, 250, 0.96));
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(201, 212, 227, 0.7);
+  font-weight: 700;
+}
+
+.column-dropzone {
+  min-height: 300px;
+  display: grid;
+  gap: 12px;
+  padding: 6px;
+  border-radius: 18px;
+}
+
+.dropzone-empty {
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  color: #7a879a;
+  border: 1px dashed #c9d4e3;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.task-card {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 108, 90, 0.18);
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 252, 249, 0.96));
+}
+
+.task-card.dragging {
+  opacity: 0.65;
+  box-shadow: 0 18px 28px rgba(15, 108, 90, 0.18);
+}
+
+.task-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #58667f;
+}
+
+.task-card h4 {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.task-card p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.task-card .form-row {
+  margin-bottom: 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(201, 212, 227, 0.65);
+}
+
+.task-composer {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid rgba(15, 108, 90, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 250, 246, 0.98));
+}
+
+.task-composer h3 {
+  margin: 0;
+}
+
+.task-composer .form-row {
+  margin-bottom: 0;
+}
+
+.task-composer .inline-note {
+  margin-bottom: 2px;
+}
+
+.task-composer .primary-button {
+  margin-top: 4px;
+  justify-self: start;
+}
+
+.task-composer .error-text,
+.task-composer .success-text {
+  margin-top: -6px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: #f0f5ff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 960px) {
+  .projects-grid,
+  .board-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell {
+    padding: 20px;
+  }
+}

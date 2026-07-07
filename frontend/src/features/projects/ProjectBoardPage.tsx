@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { ProjectTasksResponse, TaskItem, TaskStatus } from "../../types/task";
 import BoardDndContext from "../tasks/BoardDndContext";
 import TaskComposer from "../tasks/TaskComposer";
-import { createTask, listProjectTasks, updateTask, updateTaskStatus } from "../tasks/tasks.api";
+import { createTask, deleteTask, listProjectTasks, updateTask, updateTaskStatus } from "../tasks/tasks.api";
 
 export default function ProjectBoardPage() {
   const { projectId = "" } = useParams();
@@ -48,6 +48,32 @@ export default function ProjectBoardPage() {
     const updated = await updateTask(taskId, { assigneeId });
     replaceTask(updated);
     setMessage("负责人已更新");
+  }
+
+  async function handleDeleteTask(taskId: string) {
+    const currentTask = board?.items.find((task) => task.id === taskId);
+    if (!currentTask) {
+      return;
+    }
+
+    const confirmed = window.confirm(`确认删除任务“${currentTask.title}”吗？此操作不可撤销。`);
+    if (!confirmed) {
+      return;
+    }
+
+    setError(null);
+    setMessage(null);
+
+    await deleteTask(taskId);
+    setBoard((current) =>
+      current
+        ? {
+            ...current,
+            items: current.items.filter((task) => task.id !== taskId)
+          }
+        : current
+    );
+    setMessage("任务已删除");
   }
 
   async function handleStatusChange(taskId: string, status: TaskStatus) {
@@ -110,6 +136,7 @@ export default function ProjectBoardPage() {
             members={board.members}
             onAssign={handleAssign}
             onStatusChange={handleStatusChange}
+            onDelete={handleDeleteTask}
           />
         </>
       ) : null}

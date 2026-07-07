@@ -9,9 +9,10 @@ interface TaskColumnProps {
   tasks: TaskItem[];
   members: TeamMember[];
   onAssign: (taskId: string, assigneeId: string | null) => Promise<void>;
+  onDelete: (taskId: string) => Promise<void>;
 }
 
-export default function TaskColumn({ status, title, tasks, members, onAssign }: TaskColumnProps) {
+export default function TaskColumn({ status, title, tasks, members, onAssign, onDelete }: TaskColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
     data: {
@@ -40,7 +41,7 @@ export default function TaskColumn({ status, title, tasks, members, onAssign }: 
             <div className="dropzone-empty">把任务拖到这里</div>
           ) : (
             tasks.map((task) => (
-              <TaskCard key={task.id} task={task} members={members} onAssign={onAssign} />
+              <TaskCard key={task.id} task={task} members={members} onAssign={onAssign} onDelete={onDelete} />
             ))
           )}
         </div>

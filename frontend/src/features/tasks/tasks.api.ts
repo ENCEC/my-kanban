@@ -25,3 +25,9 @@ export async function updateTaskStatus(taskId: string, status: TaskStatus) {
     body: JSON.stringify({ status })
   });
 }
+
+export async function deleteTask(taskId: string) {
+  return requestJson<void>(`/api/tasks/${taskId}`, {
+    method: "DELETE"
+  });
+}

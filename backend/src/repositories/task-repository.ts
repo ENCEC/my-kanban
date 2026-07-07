@@ -72,4 +72,8 @@ export class TaskRepository {
     getDb().prepare("UPDATE tasks SET status = ?, updated_at = ? WHERE id = ?").run(status, now, taskId);
     return this.getById(taskId);
   }
+
+  delete(taskId: string) {
+    getDb().prepare("DELETE FROM tasks WHERE id = ?").run(taskId);
+  }
 }

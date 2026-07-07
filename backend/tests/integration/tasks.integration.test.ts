@@ -48,4 +48,25 @@ describe("tasks API", () => {
     expect(statusResponse.status).toBe(200);
     expect(statusResponse.body.status).toBe("done");
   });
+
+  it("deletes a task from the board", async () => {
+    const { createApp } = await import("../../src/app.js");
+    const app = createApp();
+    new TeamMemberRepository().replaceAll(seededTeamMembers);
+
+    const projectResponse = await request(app).post("/api/projects").send({ name: "产品迭代计划" });
+    const projectId = projectResponse.body.id;
+
+    const createTaskResponse = await request(app)
+      .post(`/api/projects/${projectId}/tasks`)
+      .send({ title: "移除废弃需求卡片" });
+    const taskId = createTaskResponse.body.id;
+
+    const deleteResponse = await request(app).delete(`/api/tasks/${taskId}`);
+    expect(deleteResponse.status).toBe(204);
+
+    const boardResponse = await request(app).get(`/api/projects/${projectId}/tasks`);
+    expect(boardResponse.status).toBe(200);
+    expect(boardResponse.body.items).toHaveLength(0);
+  });
 });

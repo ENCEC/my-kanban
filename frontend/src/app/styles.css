@@ -122,6 +122,15 @@ button {
   border-radius: 999px;
 }
 
+.danger-button {
+  border: 1px solid rgba(187, 43, 69, 0.25);
+  background: rgba(255, 242, 245, 0.9);
+  color: #bb2b45;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
 .inline-note {
   font-size: 14px;
   color: #58667f;
@@ -218,6 +227,12 @@ button {
   margin-bottom: 0;
   padding-top: 10px;
   border-top: 1px solid rgba(201, 212, 227, 0.65);
+}
+
+.task-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
 }
 
 .task-composer {

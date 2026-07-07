@@ -76,6 +76,15 @@ export class TaskService {
     return this.tasks.updateStatus(taskId, status);
   }
 
+  deleteTask(taskId: string) {
+    const task = this.tasks.getById(taskId);
+    if (!task) {
+      this.raise("任务不存在", 404);
+    }
+
+    this.tasks.delete(taskId);
+  }
+
   private raise(message: string, status: number): never {
     const error = new Error(message);
     (error as Error & { status?: number }).status = status;

@@ -31,5 +31,10 @@ export function createTasksRouter(taskService: TaskService) {
     response.json(updated);
   });
 
+  router.delete("/tasks/:taskId", (request, response) => {
+    taskService.deleteTask(request.params.taskId);
+    response.status(204).send();
+  });
+
   return router;
 }

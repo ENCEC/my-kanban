@@ -8,9 +8,10 @@ interface TaskCardProps {
   task: TaskItem;
   members: TeamMember[];
   onAssign: (taskId: string, assigneeId: string | null) => Promise<void>;
+  onDelete: (taskId: string) => Promise<void>;
 }
 
-export default function TaskCard({ task, members, onAssign }: TaskCardProps) {
+export default function TaskCard({ task, members, onAssign, onDelete }: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.id,
     data: {
@@ -37,6 +38,11 @@ export default function TaskCard({ task, members, onAssign }: TaskCardProps) {
         {task.description ? <p className="inline-note">{task.description}</p> : null}
       </div>
       <AssigneeSelect value={task.assigneeId ?? null} members={members} onChange={(value) => onAssign(task.id, value)} />
+      <div className="task-card-actions">
+        <button className="danger-button" type="button" onClick={() => void onDelete(task.id)}>
+          删除任务
+        </button>
+      </div>
     </article>
   );
 }

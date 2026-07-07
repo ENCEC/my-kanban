@@ -8,13 +8,15 @@ interface BoardDndContextProps {
   members: TeamMember[];
   onAssign: (taskId: string, assigneeId: string | null) => Promise<void>;
   onStatusChange: (taskId: string, status: TaskStatus) => Promise<void>;
+  onDelete: (taskId: string) => Promise<void>;
 }
 
 export default function BoardDndContext({
   tasks,
   members,
   onAssign,
-  onStatusChange
+  onStatusChange,
+  onDelete
 }: BoardDndContextProps) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
@@ -49,6 +51,7 @@ export default function BoardDndContext({
             tasks={groupedTasks[status]}
             members={members}
             onAssign={onAssign}
+            onDelete={onDelete}
           />
         ))}
       </div>
